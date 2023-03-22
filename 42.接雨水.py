@@ -6,7 +6,7 @@
 
 # @lc code=start
 class Solution(object):
-    def trap(self, height):
+    def trap_pointer(self, height):
         """
         :type height: List[int]
         :rtype: int
@@ -27,6 +27,25 @@ class Solution(object):
                 else:
                     ans += (right_max) - height[right]
                 right -= 1
+        return ans
+    
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        ans = 0
+        stack = []
+        for i in range(len(height)):
+            while stack and height[stack[-1]] < height[i]:
+                cur = stack.pop()
+                if not stack:
+                    break
+                left = stack[-1]
+                w = i - left - 1
+                h = min(height[i], height[left]) - height[cur]
+                ans += h * w
+            stack.append(i)
         return ans
         
 # @lc code=end
